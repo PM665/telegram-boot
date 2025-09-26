@@ -44,8 +44,4 @@ subprojects {
             exceptionFormat = TestExceptionFormat.FULL
         }
     }
-
-    tasks.withType<Sign>().configureEach {
-        outputs.upToDateWhen { true }
-    }
 }
