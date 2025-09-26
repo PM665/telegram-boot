@@ -2,6 +2,7 @@
 .gradle/
 build/
 **/build/
+.idea/
 
 # Kotlin and Java
 *.class
