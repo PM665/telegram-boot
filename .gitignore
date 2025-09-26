@@ -2,7 +2,6 @@
 .gradle/
 build/
 **/build/
-!gradle/wrapper/gradle-wrapper.jar
 
 # Kotlin and Java
 *.class
@@ -21,6 +20,7 @@ build/
 *.zip
 *.tar.gz
 *.rar
+!gradle/wrapper/gradle-wrapper.jar
 
 # Virtual machine crash logs
 hs_err_pid*
