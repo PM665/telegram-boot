@@ -11,7 +11,7 @@ val springBootVersion by extra("3.5.0-SNAPSHOT")
 
 allprojects {
     group = "io.github.pm665"
-    version = "0.0.1-SNAPSHOT"
+    version = "0.0.1"
 
     repositories {
         mavenCentral()
