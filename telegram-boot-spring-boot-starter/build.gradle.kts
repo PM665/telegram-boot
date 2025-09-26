@@ -8,6 +8,9 @@ plugins {
 }
 
 dependencies {
+    val springBootVersion: String by rootProject.extra
+
+    api(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
     api(project(":telegram-boot-core"))
     implementation(project(":telegram-boot-autoconfigure"))
 }
