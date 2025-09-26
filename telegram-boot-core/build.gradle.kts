@@ -8,6 +8,9 @@ plugins {
 }
 
 dependencies {
+    val springBootVersion: String by rootProject.extra
+
+    api(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
     api("org.springframework.boot:spring-boot")
 
     implementation("org.slf4j:slf4j-api")
@@ -16,6 +19,7 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
+    testImplementation(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
