@@ -55,7 +55,7 @@ jobs:
         run: |
           ./gradlew --no-daemon \
           -Dorg.gradle.jvmargs="--enable-native-access=ALL-UNNAMED" \
-          publishToMavenCentral
+          publishToMavenCentral --debug
 
       - name: Summarize published version
         if: ${{ success() }}
