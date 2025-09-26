@@ -8,6 +8,9 @@ plugins {
 }
 
 dependencies {
+    val springBootVersion: String by rootProject.extra
+
+    implementation(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
     implementation(project(":telegram-boot-core"))
     implementation("org.springframework.boot:spring-boot-autoconfigure")
 
@@ -15,6 +18,7 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
+    testImplementation(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
