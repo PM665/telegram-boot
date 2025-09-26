@@ -51,11 +51,7 @@ jobs:
           ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.SONATYPE_PASSWORD }}
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.GPG_PRIVATE_KEY }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.GPG_PASSPHRASE }}
-        run: |
-          ./gradlew --no-daemon \
-            :telegram-boot-core:publish \
-            :telegram-boot-autoconfigure:publish \
-            :telegram-boot-spring-boot-starter:publish
+        run: ./gradlew --no-daemon publish
 
       - name: Summarize published version
         if: ${{ success() }}
