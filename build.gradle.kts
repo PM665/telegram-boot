@@ -8,10 +8,9 @@ plugins {
 }
 
 val springBootVersion by extra("3.5.0-SNAPSHOT")
-val lombokVersion by extra("1.18.34")
 
 allprojects {
-    group = "telegram-boot"
+    group = "io.github.pm665"
     version = "0.0.1-SNAPSHOT"
 
     repositories {
