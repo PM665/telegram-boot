@@ -1,6 +1,9 @@
 import io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension
+import org.gradle.api.publish.PublishingExtension
+import org.gradle.api.publish.plugins.PublishingPlugin
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
+import org.gradle.kotlin.dsl.configure
 
 plugins {
     java
@@ -18,6 +21,11 @@ allprojects {
         maven("https://repo.spring.io/milestone")
         maven("https://repo.spring.io/snapshot")
     }
+}
+
+val publishToMavenCentral by tasks.registering {
+    group = PublishingPlugin.PUBLISH_TASK_GROUP
+    description = "Aggregates publishing of all Maven Central publications."
 }
 
 subprojects {
@@ -42,6 +50,27 @@ subprojects {
         testLogging {
             events = setOf(TestLogEvent.FAILED, TestLogEvent.SKIPPED, TestLogEvent.PASSED)
             exceptionFormat = TestExceptionFormat.FULL
+        }
+    }
+
+    pluginManager.withPlugin("maven-publish") {
+        configure<PublishingExtension> {
+            repositories {
+                mavenCentral {
+                    credentials {
+                        username = providers.gradleProperty("sonatypeUsername")
+                            .orElse(providers.environmentVariable("SONATYPE_USERNAME"))
+                            .orNull
+                        password = providers.gradleProperty("sonatypePassword")
+                            .orElse(providers.environmentVariable("SONATYPE_PASSWORD"))
+                            .orNull
+                    }
+                }
+            }
+        }
+
+        rootProject.tasks.named("publishToMavenCentral") {
+            dependsOn(tasks.named("publishAllPublicationsToMavenCentralRepository"))
         }
     }
 }
