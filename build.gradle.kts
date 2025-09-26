@@ -7,6 +7,8 @@ plugins {
     id("io.spring.dependency-management") version "1.1.7"
 }
 
+val springBootVersion by extra("3.5.0-SNAPSHOT")
+
 allprojects {
     group = "io.github.pm665"
     version = "0.0.1-SNAPSHOT"
