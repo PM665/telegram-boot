@@ -53,10 +53,9 @@ jobs:
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.GPG_PRIVATE_KEY }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.GPG_PASSPHRASE }}
         run: |
-          ./gradlew --no-daemon publishToMavenCentral\
-            :telegram-boot-core:publish \
-            :telegram-boot-autoconfigure:publish \
-            :telegram-boot-spring-boot-starter:publish
+          ./gradlew --no-daemon \
+          -Dorg.gradle.jvmargs="--enable-native-access=ALL-UNNAMED" \
+          publishToMavenCentral
 
       - name: Summarize published version
         if: ${{ success() }}
