@@ -53,9 +53,7 @@ jobs:
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.GPG_PRIVATE_KEY }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.GPG_PASSPHRASE }}
         run: |
-          ./gradlew --no-daemon \
-          -Dorg.gradle.jvmargs="--enable-native-access=ALL-UNNAMED" \
-          publishToMavenCentral --debug
+          ./gradlew --no-daemon publishToMavenCentral
 
       - name: Summarize published version
         if: ${{ success() }}

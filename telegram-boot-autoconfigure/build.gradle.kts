@@ -29,6 +29,14 @@ mavenPublishing {
         publications {
             create<MavenPublication>("mavenJava") {
                 from(components["java"])
+                versionMapping {
+                    usage("java-api") {
+                        fromResolutionResult()
+                    }
+                    usage("java-runtime") {
+                        fromResolutionResult()
+                    }
+                }
             }
         }
     }
