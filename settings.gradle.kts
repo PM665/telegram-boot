@@ -12,5 +12,5 @@ include(
     "telegram-boot-core",
     "telegram-boot-autoconfigure",
     "telegram-boot-spring-boot-starter",
-    "telegram-boot-sample-app"
+    "telegram-boot-sample-app",
 )

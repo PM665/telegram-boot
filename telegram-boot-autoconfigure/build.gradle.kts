@@ -13,15 +13,13 @@ dependencies {
     implementation(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
     implementation(project(":telegram-boot-core"))
     implementation("org.springframework.boot:spring-boot-autoconfigure")
+    implementation(kotlin("reflect"))
 
-    compileOnly("org.projectlombok:lombok")
-    annotationProcessor("org.projectlombok:lombok")
-    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+    kapt("org.springframework.boot:spring-boot-configuration-processor")
 
     testImplementation(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
-
 
 mavenPublishing {
     publishToMavenCentral(automaticRelease = true)
@@ -45,10 +43,12 @@ mavenPublishing {
         }
     }
 
-    configure(JavaLibrary(
-        javadocJar = JavadocJar.None(),
-        sourcesJar = true,
-    ))
+    configure(
+        JavaLibrary(
+            javadocJar = JavadocJar.None(),
+            sourcesJar = true,
+        ),
+    )
 
     pom {
         name.set("Telegram-Boot Spring Boot Starter")

@@ -37,10 +37,12 @@ mavenPublishing {
         }
     }
 
-    configure(JavaLibrary(
-        javadocJar = JavadocJar.None(),
-        sourcesJar = true,
-    ))
+    configure(
+        JavaLibrary(
+            javadocJar = JavadocJar.None(),
+            sourcesJar = true,
+        ),
+    )
 
     pom {
         name.set("Telegram-Boot Spring Boot Starter")
