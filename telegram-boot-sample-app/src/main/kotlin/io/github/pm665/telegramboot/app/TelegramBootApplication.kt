@@ -1,6 +1,6 @@
 package io.github.pm665.telegramboot.app
 
-import io.github.pm665.telegramboot.domain.configuration.TelegramBootService
+import io.github.pm665.telegramboot.domain.telegram.TelegramBootService
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

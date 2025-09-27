@@ -1,7 +1,7 @@
 package io.github.pm665.telegramboot.bot.autoconfigure
 
 import io.github.pm665.telegramboot.domain.configuration.TelegramBootProperties
-import io.github.pm665.telegramboot.domain.configuration.TelegramBootService
+import io.github.pm665.telegramboot.domain.telegram.TelegramBootService
 import org.springframework.boot.autoconfigure.AutoConfiguration
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean

@@ -1,5 +1,6 @@
-package io.github.pm665.telegramboot.domain.configuration
+package io.github.pm665.telegramboot.domain.telegram
 
+import io.github.pm665.telegramboot.domain.configuration.TelegramBootProperties
 import org.slf4j.LoggerFactory
 import org.springframework.util.Assert
 
