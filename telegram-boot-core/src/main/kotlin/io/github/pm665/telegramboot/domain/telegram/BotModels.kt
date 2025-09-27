@@ -1,4 +1,4 @@
-package io.github.pm665.telegramboot.core.model
+package io.github.pm665.telegramboot.domain.telegram
 
 data class Bot(
     val botUsername: String,
