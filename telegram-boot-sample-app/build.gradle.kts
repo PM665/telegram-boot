@@ -1,5 +1,7 @@
+val springBootVersion: String by rootProject.extra
+
 plugins {
-    id("org.springframework.boot") version "3.5.0-SNAPSHOT"
+    id("org.springframework.boot") version "3.5.6"
 }
 
 dependencies {
