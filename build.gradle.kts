@@ -7,7 +7,7 @@ plugins {
     id("io.spring.dependency-management") version "1.1.7"
 }
 
-val springBootVersion by extra("3.5.0-SNAPSHOT")
+val springBootVersion by extra("3.5.6")
 
 allprojects {
     group = "io.github.pm665"
@@ -15,8 +15,6 @@ allprojects {
 
     repositories {
         mavenCentral()
-        maven("https://repo.spring.io/milestone")
-        maven("https://repo.spring.io/snapshot")
     }
 }
 
