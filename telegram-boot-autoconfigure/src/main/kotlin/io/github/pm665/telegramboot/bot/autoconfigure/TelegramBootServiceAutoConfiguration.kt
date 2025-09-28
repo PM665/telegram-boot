@@ -1,7 +1,9 @@
 package io.github.pm665.telegramboot.bot.autoconfigure
 
+import io.github.pm665.telegramboot.adapters.InMemoryBotProvider
 import io.github.pm665.telegramboot.domain.configuration.TelegramBootProperties
 import io.github.pm665.telegramboot.domain.telegram.TelegramBootService
+import io.github.pm665.telegramboot.ports.BotProvider
 import org.springframework.boot.autoconfigure.AutoConfiguration
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
@@ -13,6 +15,10 @@ import org.springframework.context.annotation.Bean
 @ConditionalOnClass(TelegramBootService::class)
 @EnableConfigurationProperties(TelegramBootProperties::class)
 class TelegramBootServiceAutoConfiguration {
+    @Bean
+    @ConditionalOnMissingBean
+    fun botProvider(): BotProvider = InMemoryBotProvider()
+
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnProperty(prefix = "telegram-boot", name = ["enabled"], havingValue = "true")
