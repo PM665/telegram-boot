@@ -10,7 +10,6 @@ plugins {
     kotlin("kapt") version "2.0.21" apply false
     kotlin("plugin.spring") version "2.0.21" apply false
     id("com.diffplug.spotless") version "6.25.0"
-    kotlin("plugin.lombok") version "2.2.20"
 }
 
 val springBootVersion by extra("3.5.6")
@@ -38,8 +37,6 @@ subprojects {
     apply(plugin = "org.jetbrains.kotlin.kapt")
     apply(plugin = "org.jetbrains.kotlin.plugin.spring")
     apply(plugin = "com.diffplug.spotless")
-    apply(plugin = "org.jetbrains.kotlin.plugin.lombok")
-
     pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
         extensions.configure<KotlinJvmProjectExtension> {
             jvmToolchain(21)
