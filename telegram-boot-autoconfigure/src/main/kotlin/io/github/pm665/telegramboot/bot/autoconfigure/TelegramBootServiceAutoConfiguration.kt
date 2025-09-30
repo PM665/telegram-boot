@@ -3,6 +3,7 @@ package io.github.pm665.telegramboot.bot.autoconfigure
 import io.github.pm665.telegramboot.adapters.InMemoryBotChatProvider
 import io.github.pm665.telegramboot.adapters.InMemoryBotProvider
 import io.github.pm665.telegramboot.adapters.InMemoryBotUserProvider
+import io.github.pm665.telegramboot.adapters.InMemoryCalledCommandProvider
 import io.github.pm665.telegramboot.adapters.InMemoryCommandProvider
 import io.github.pm665.telegramboot.adapters.InMemoryMenuProvider
 import io.github.pm665.telegramboot.adapters.InMemoryMessageProvider
@@ -12,6 +13,7 @@ import io.github.pm665.telegramboot.domain.telegram.TelegramBootService
 import io.github.pm665.telegramboot.ports.BotChatProvider
 import io.github.pm665.telegramboot.ports.BotProvider
 import io.github.pm665.telegramboot.ports.BotUserProvider
+import io.github.pm665.telegramboot.ports.CalledCommandProvider
 import io.github.pm665.telegramboot.ports.CommandProvider
 import io.github.pm665.telegramboot.ports.MenuProvider
 import io.github.pm665.telegramboot.ports.MessageProvider
@@ -42,6 +44,10 @@ class TelegramBootServiceAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     fun commandProvider(): CommandProvider = InMemoryCommandProvider()
+
+    @Bean
+    @ConditionalOnMissingBean
+    fun calledCommandProvider(): CalledCommandProvider = InMemoryCalledCommandProvider()
 
     @Bean
     @ConditionalOnMissingBean

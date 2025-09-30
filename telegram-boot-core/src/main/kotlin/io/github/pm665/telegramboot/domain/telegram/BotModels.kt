@@ -1,5 +1,7 @@
 package io.github.pm665.telegramboot.domain.telegram
 
+import java.time.LocalDateTime
+
 data class Bot(
     val botUsername: String, // identifyiable by
     val botToken: String,
@@ -38,6 +40,16 @@ data class Command(
     val action: String,
     val label: String,
     val description: String,
+)
+
+data class CalledCommand(
+    val timestamp: LocalDateTime,
+    val botUsername: String,
+    val chatId: Long,
+    val commandName: String,
+    val messageId: Long,
+    val result: Boolean,
+    val outcome: String,
 )
 
 data class Menu(
