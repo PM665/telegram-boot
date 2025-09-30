@@ -50,6 +50,14 @@ data class Menu(
     val order: Int = 0,
 )
 
+data class Message(
+    val id: String, // identifyiable by
+    val botUsername: String,
+    val chatId: Long,
+    val className: String,
+    val update: Any,
+)
+
 enum class CommandType {
     COMMAND,
     INFO_LINK,
