@@ -13,6 +13,9 @@ dependencies {
     api(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
     api(project(":telegram-boot-core"))
     implementation(project(":telegram-boot-autoconfigure"))
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 mavenPublishing {
