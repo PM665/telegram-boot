@@ -11,18 +11,22 @@ class InMemoryCommandProvider : CommandProvider {
 
     override fun getCommands(): Collection<Command> = commands.values.toList()
 
-    override fun getForBot(botUsername: String): Collection<Command> =
-        commands.values.filter { it.botUsername == botUsername }
+    override fun getForBot(botUsername: String): Collection<Command> = commands.values.filter { it.botUsername == botUsername }
 
-    override fun getByCommand(commandName: String, botUsername: String): Command? =
-        commands[CommandKey(commandName, botUsername)]
+    override fun getByCommand(
+        commandName: String,
+        botUsername: String,
+    ): Command? = commands[CommandKey(commandName, botUsername)]
 
     override fun addCommand(command: Command) {
         val key = CommandKey(command.command, command.botUsername)
         commands[key] = command
     }
 
-    override fun removeCommand(commandName: String, botUsername: String) {
+    override fun removeCommand(
+        commandName: String,
+        botUsername: String,
+    ) {
         val key = CommandKey(commandName, botUsername)
         commands.remove(key)
     }
