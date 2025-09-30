@@ -11,18 +11,22 @@ class InMemoryMenuProvider : MenuProvider {
 
     override fun getMenus(): Collection<Menu> = menus.values.toList()
 
-    override fun getForBot(botUsername: String): Collection<Menu> =
-        menus.values.filter { it.botUsername == botUsername }
+    override fun getForBot(botUsername: String): Collection<Menu> = menus.values.filter { it.botUsername == botUsername }
 
-    override fun getByParent(parent: String?, botUsername: String): Collection<Menu> =
-        menus.values.filter { it.botUsername == botUsername && it.parent == parent }
+    override fun getByParent(
+        parent: String?,
+        botUsername: String,
+    ): Collection<Menu> = menus.values.filter { it.botUsername == botUsername && it.parent == parent }
 
     override fun addMenu(menu: Menu) {
         val key = MenuKey(menu.command, menu.botUsername)
         menus[key] = menu
     }
 
-    override fun removeMenu(command: String, botUsername: String) {
+    override fun removeMenu(
+        command: String,
+        botUsername: String,
+    ) {
         val key = MenuKey(command, botUsername)
         menus.remove(key)
     }

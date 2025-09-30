@@ -7,9 +7,15 @@ interface MenuProvider {
 
     fun getForBot(botUsername: String): Collection<Menu>
 
-    fun getByParent(parent: String?, botUsername: String): Collection<Menu>
+    fun getByParent(
+        parent: String?,
+        botUsername: String,
+    ): Collection<Menu>
 
     fun addMenu(menu: Menu)
 
-    fun removeMenu(command: String, botUsername: String)
+    fun removeMenu(
+        command: String,
+        botUsername: String,
+    )
 }

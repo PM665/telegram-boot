@@ -12,15 +12,18 @@ class InMemoryUserRoleProvider : UserRoleProvider {
 
     override fun getUserRoles(): Collection<UserRole> = userRoles.values.toList()
 
-    override fun getForBot(botUsername: String): Collection<UserRole> =
-        userRoles.values.filter { it.botUsername == botUsername }
+    override fun getForBot(botUsername: String): Collection<UserRole> = userRoles.values.filter { it.botUsername == botUsername }
 
     override fun addUserRole(userRole: UserRole) {
         val key = UserRoleKey(userRole.botUsername, userRole.botUserId, userRole.role)
         userRoles[key] = userRole
     }
 
-    override fun removeUserRole(botUsername: String?, botUserId: Long, role: Role) {
+    override fun removeUserRole(
+        botUsername: String?,
+        botUserId: Long,
+        role: Role,
+    ) {
         val key = UserRoleKey(botUsername, botUserId, role)
         userRoles.remove(key)
     }

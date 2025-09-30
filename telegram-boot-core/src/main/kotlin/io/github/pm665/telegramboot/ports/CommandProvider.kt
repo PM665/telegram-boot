@@ -7,9 +7,15 @@ interface CommandProvider {
 
     fun getForBot(botUsername: String): Collection<Command>
 
-    fun getByCommand(commandName: String, botUsername: String): Command?
+    fun getByCommand(
+        commandName: String,
+        botUsername: String,
+    ): Command?
 
     fun addCommand(command: Command)
 
-    fun removeCommand(commandName: String, botUsername: String)
+    fun removeCommand(
+        commandName: String,
+        botUsername: String,
+    )
 }
