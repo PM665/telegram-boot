@@ -9,8 +9,7 @@ class InMemoryBotChatProvider : BotChatProvider {
 
     override fun getBotChats(): Collection<BotChat> = botChats.values.toList()
 
-    override fun getForBot(botUsername: String): Collection<BotChat> =
-        botChats.values.filter { it.botUsername == botUsername }
+    override fun getForBot(botUsername: String): Collection<BotChat> = botChats.values.filter { it.botUsername == botUsername }
 
     override fun addBotChat(botChat: BotChat) {
         botChats[botChat.botChatId] = botChat

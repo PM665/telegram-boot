@@ -10,5 +10,9 @@ interface UserRoleProvider {
 
     fun addUserRole(userRole: UserRole)
 
-    fun removeUserRole(botUsername: String?, botUserId: Long, role: Role)
+    fun removeUserRole(
+        botUsername: String?,
+        botUserId: Long,
+        role: Role,
+    )
 }
