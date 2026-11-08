@@ -1,88 +1,31 @@
-import com.vanniktech.maven.publish.JavaLibrary
-import com.vanniktech.maven.publish.JavadocJar
-import org.gradle.api.publish.maven.MavenPublication
-
 plugins {
     `java-library`
-    id("com.vanniktech.maven.publish") version "0.34.0"
+    kotlin("kapt")
 }
 
 dependencies {
-    val springBootVersion: String by rootProject.extra
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
-    api(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
-    api("org.springframework.boot:spring-boot")
+    implementation("org.springframework.boot:spring-boot-starter-aspectj")
+    implementation("org.springframework.boot:spring-boot-autoconfigure")
+    implementation("org.springframework:spring-context")
+    implementation("org.springframework.security:spring-security-crypto")
+    implementation("io.micrometer:context-propagation")
+    implementation(libs.bundles.observability)
+    implementation(libs.bundles.observabilityStack)
+    implementation("io.github.resilience4j:resilience4j-spring-boot4:2.4.0")
+    implementation("org.springframework.boot:spring-boot-starter-mustache")
 
     implementation(kotlin("reflect"))
     implementation("org.slf4j:slf4j-api")
 
     kapt("org.springframework.boot:spring-boot-configuration-processor")
 
-    testImplementation(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation(libs.mockito.kotlin)
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testImplementation(kotlin("test"))
 }
-
-mavenPublishing {
-    publishToMavenCentral(automaticRelease = true)
-    signAllPublications()
-
-    coordinates(group.toString(), name, version.toString())
-
-    publishing {
-        publications {
-            create<MavenPublication>("mavenJava") {
-                from(components["java"])
-                versionMapping {
-                    usage("java-api") {
-                        fromResolutionResult()
-                    }
-                    usage("java-runtime") {
-                        fromResolutionResult()
-                    }
-                }
-            }
-        }
-    }
-
-    configure(
-        JavaLibrary(
-            javadocJar = JavadocJar.None(),
-            sourcesJar = true,
-        ),
-    )
-
-    pom {
-        name.set("Telegram-Boot Spring Boot Starter")
-        description.set("This is the Spring Boot Starter for Telegram-Boot, a framework to build Telegram Bots in Java with Spring Boot.")
-        inceptionYear.set("2025")
-        url.set("https://github.com/pm665/telegram-boot/")
-        licenses {
-            license {
-                name.set("The Apache License, Version 2.0")
-                url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
-                distribution.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
-            }
-        }
-        developers {
-            developer {
-                id.set("pm665")
-                name.set("Pavel Minin")
-                url.set("https://github.com/pm665/")
-            }
-        }
-        scm {
-            url.set("https://github.com/pm665/telegram-boot/")
-            connection.set("scm:git:git://github.com/pm665/telegram-boot.git")
-            developerConnection.set("scm:git:ssh://git@github.com/pm665/telegram-boot.git")
-        }
-    }
-}
-
-tasks.named("publishMavenJavaPublicationToMavenCentralRepository") {
-    dependsOn("signMavenPublication")
-}
-
-tasks.named("publishMavenPublicationToMavenCentralRepository") {
-    dependsOn("signMavenJavaPublication")
+repositories {
+    mavenCentral()
 }

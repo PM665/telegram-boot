@@ -1,0 +1,11 @@
+<div th:fragment="botPageContent (bot)">
+    <section class="bot-page bot-page--status">
+        <h3>Status overview</h3>
+        <p th:text="'Showing dummy status for @' + ${bot.username}">Dummy status</p>
+        <ul class="bot-page__list">
+            <li><strong>Messages processed:</strong> 1,250</li>
+            <li><strong>Chats served:</strong> 72</li>
+            <li><strong>Last restart:</strong> 5 minutes ago</li>
+        </ul>
+    </section>
+</div>

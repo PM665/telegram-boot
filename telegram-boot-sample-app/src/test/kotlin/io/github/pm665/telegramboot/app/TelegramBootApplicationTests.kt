@@ -67,6 +67,6 @@ class TelegramBootApplicationTests {
 
         assertThat(capturedOutput.out)
             .contains("Telegram boot 'test-bot' is ready to receive updates")
-        assertThat(telegramBootService.botName()).isEqualTo("test-bot")
+        assertThat(telegramBootService.botName).isEqualTo("test-bot")
     }
 }

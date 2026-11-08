@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Telegram Mini App Login</title>
+</head>
+<body>
+<p>Signing in...</p>
+<p id="mini-app-error" style="color:#b00020;display:none;">Mini app login failed. Open from Telegram bot mini app.</p>
+<form id="mini-app-login-form" method="post" action="/mini-app" style="display:none;">
+    <input id="init-data" type="hidden" name="initData">
+</form>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script>
+    (function () {
+        var webApp = window.Telegram && window.Telegram.WebApp;
+        var initData = webApp && webApp.initData;
+        if (!initData) {
+            document.getElementById("mini-app-error").style.display = "block";
+            return;
+        }
+        document.getElementById("init-data").value = initData;
+        document.getElementById("mini-app-login-form").submit();
+    })();
+</script>
+</body>
+</html>

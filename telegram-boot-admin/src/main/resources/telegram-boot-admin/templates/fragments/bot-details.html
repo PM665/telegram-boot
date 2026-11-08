@@ -1,0 +1,35 @@
+<div th:fragment="botDetails (bot, botPages)">
+    <div class="bot-details">
+        <h2 th:text="'@' + ${bot.username}">@botname</h2>
+        <p class="bot-details__status">
+            <span class="status-indicator" th:classappend="${bot.enabled} ? ' enabled' : ' disabled'"></span>
+            <span th:text="${bot.enabled} ? 'Bot is enabled' : 'Bot is disabled'"></span>
+        </p>
+    </div>
+
+    <div class="bot-tabs" th:if="${#lists.isEmpty(botPages)}">
+        <p class="bot-tabs__empty">No bot pages available.</p>
+    </div>
+
+    <div class="bot-tabs" th:if="${!#lists.isEmpty(botPages)}">
+        <div class="tab-header">
+            <button class="tab-button"
+                    th:each="page, iterStat : ${botPages}"
+                    type="button"
+                    th:classappend="${iterStat.index == 0} ? ' active' : ''"
+                    th:attr="data-page=${iterStat.index}">
+                <span th:text="${page.title()}">Tab title</span>
+            </button>
+        </div>
+        <div class="tab-contents">
+            <th:block th:each="page, iterStat : ${botPages}">
+                <div class="tab-content"
+                     th:classappend="${iterStat.index == 0} ? ' active' : ''"
+                     th:attr="data-page=${iterStat.index}"
+                >
+                    <th:block th:replace="~{${page.template()} :: botPageContent (bot=${bot})}"/>
+                </div>
+            </th:block>
+        </div>
+    </div>
+</div>

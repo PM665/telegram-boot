@@ -14,7 +14,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
 
-@SpringBootApplication
+@SpringBootApplication(excludeName = [
+    "io.github.pm665.telegramboot.core.autoconfigure.TelegramBootCoreAutoConfiguration",
+    "io.github.pm665.telegramboot.springdata.autoconfigure.TelegramBootSpringDataAutoConfiguration",
+    "io.github.pm665.telegramboot.admin.autoconfigure.TelegramBootAdminAutoConfiguration",
+        "io.github.pm665.telegramboot.TelegramBootTelegramAutoConfiguration",
+        "io.github.pm665.telegramboot.max.MaxConfiguration",
+        "io.github.pm665.telegramboot.gmail.GmailAutoConfiguration",
+])
 class TelegramBootApplication {
     @Bean
     fun telegramLogger(service: TelegramBootService): CommandLineRunner =

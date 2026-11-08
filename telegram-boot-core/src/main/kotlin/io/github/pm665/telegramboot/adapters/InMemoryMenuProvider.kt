@@ -5,7 +5,10 @@ import io.github.pm665.telegramboot.ports.MenuProvider
 import java.util.concurrent.ConcurrentHashMap
 
 class InMemoryMenuProvider : MenuProvider {
-    private data class MenuKey(val command: String, val botUsername: String)
+    private data class MenuKey(
+        val command: String,
+        val botUsername: String,
+    )
 
     private val menus = ConcurrentHashMap<MenuKey, Menu>()
 

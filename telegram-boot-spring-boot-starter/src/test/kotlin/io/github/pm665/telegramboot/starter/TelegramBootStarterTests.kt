@@ -1,45 +1,50 @@
 package io.github.pm665.telegramboot.starter
 
-import io.github.pm665.telegramboot.domain.telegram.TelegramBootService
+import io.github.pm665.telegramboot.TelegramBootTelegramAutoConfiguration
+import io.github.pm665.telegramboot.core.autoconfigure.TelegramBootCoreAutoConfiguration
+import io.github.pm665.telegramboot.drivers.telegram.BotsFactory
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.boot.autoconfigure.AutoConfigurations
 import org.springframework.boot.test.context.runner.ApplicationContextRunner
-import org.springframework.core.io.ClassPathResource
+import java.util.Collections
 
 class TelegramBootStarterTests {
     @Test
     fun `auto configuration imports file exposes telegram boot configuration`() {
-        val resource = ClassPathResource("META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports")
-
-        assertThat(resource.exists()).isTrue()
-
-        val entries =
-            resource.inputStream.bufferedReader().useLines { lines ->
-                lines.filter { it.isNotBlank() && !it.trim().startsWith("#") }.toList()
-            }
+        val entries = autoConfigurationEntries()
 
         assertThat(entries)
-            .contains("io.github.pm665.telegramboot.bot.autoconfigure.TelegramBootServiceAutoConfiguration")
+            .contains("io.github.pm665.telegramboot.core.autoconfigure.TelegramBootCoreAutoConfiguration")
+            .contains("io.github.pm665.telegramboot.TelegramBootTelegramAutoConfiguration")
     }
 
     @Test
     fun `starter makes telegram boot service auto configuration available`() {
-        val resource = ClassPathResource("META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports")
-        val autoConfigurationClasses =
-            resource.inputStream.bufferedReader().useLines { lines ->
-                lines.filter { it.isNotBlank() && !it.trim().startsWith("#") }
-                    .map { Class.forName(it) }
-                    .toList()
-            }
-
         val runner =
             ApplicationContextRunner()
-                .withConfiguration(AutoConfigurations.of(*autoConfigurationClasses.toTypedArray()))
+                .withConfiguration(
+                    AutoConfigurations.of(
+                        TelegramBootCoreAutoConfiguration::class.java,
+                        TelegramBootTelegramAutoConfiguration::class.java,
+                    ),
+                )
                 .withPropertyValues("telegram-boot.enabled=true")
 
         runner.run { context ->
-            assertThat(context).hasSingleBean(TelegramBootService::class.java)
-        }
+            assertThat(context).hasSingleBean(BotsFactory::class.java)
+            }
     }
+
+    private fun autoConfigurationEntries(): List<String> =
+        Collections
+            .list(
+                javaClass.classLoader.getResources(
+                    "META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports",
+                ),
+            ).flatMap { resource ->
+                resource.openStream().bufferedReader().useLines { lines ->
+                    lines.filter { it.isNotBlank() && !it.trim().startsWith("#") }.toList()
+                }
+            }
 }

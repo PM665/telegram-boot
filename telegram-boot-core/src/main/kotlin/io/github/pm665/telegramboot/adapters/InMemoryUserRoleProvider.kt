@@ -6,7 +6,11 @@ import io.github.pm665.telegramboot.ports.UserRoleProvider
 import java.util.concurrent.ConcurrentHashMap
 
 class InMemoryUserRoleProvider : UserRoleProvider {
-    private data class UserRoleKey(val botUsername: String?, val botUserId: Long, val role: Role)
+    private data class UserRoleKey(
+        val botUsername: String?,
+        val botUserId: Long,
+        val role: Role,
+    )
 
     private val userRoles = ConcurrentHashMap<UserRoleKey, UserRole>()
 

@@ -5,7 +5,10 @@ import io.github.pm665.telegramboot.ports.CommandProvider
 import java.util.concurrent.ConcurrentHashMap
 
 class InMemoryCommandProvider : CommandProvider {
-    private data class CommandKey(val command: String, val botUsername: String)
+    private data class CommandKey(
+        val command: String,
+        val botUsername: String,
+    )
 
     private val commands = ConcurrentHashMap<CommandKey, Command>()
 

@@ -12,7 +12,7 @@ class TelegramBootService(
         logConfiguredName()
     }
 
-    fun botName(): String = properties.name
+    val botName: String get() = properties.name
 
     fun logConfiguredName() {
         logger.info("Telegram boot '{}' is ready to receive updates", properties.name)

@@ -1,0 +1,12 @@
+<div th:fragment="botContent (selectedBot, botPages)">
+    <div class="bot-content">
+        <div th:if="${selectedBot == null}">
+            <h2>Choose a bot</h2>
+            <p>Select a bot from the list to see its details.</p>
+        </div>
+        <div th:if="${selectedBot != null}"
+             th:replace="~{fragments/bot-details :: botDetails (bot=${selectedBot}, botPages=${botPages})}">
+            <p>Loading bot details...</p>
+        </div>
+    </div>
+</div>

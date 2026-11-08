@@ -1,0 +1,20 @@
+<div th:fragment="botPageContent (bot)">
+    <section class="bot-page bot-page--settings">
+        <h3>Configuration</h3>
+        <p th:text="'Preview of dummy settings for @' + ${bot.username}">Dummy settings</p>
+        <div class="bot-page__settings">
+            <label>
+                <span>Notifications</span>
+                <input type="checkbox" checked disabled>
+            </label>
+            <label>
+                <span>Night mode</span>
+                <input type="checkbox" disabled>
+            </label>
+            <label>
+                <span>Auto replies</span>
+                <input type="checkbox" checked disabled>
+            </label>
+        </div>
+    </section>
+</div>

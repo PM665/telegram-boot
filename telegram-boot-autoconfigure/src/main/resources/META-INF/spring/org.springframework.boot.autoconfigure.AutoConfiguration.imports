@@ -1,0 +1,3 @@
+io.github.pm665.telegramboot.core.autoconfigure.TelegramBootCoreAutoConfiguration
+io.github.pm665.telegramboot.springdata.autoconfigure.TelegramBootSpringDataAutoConfiguration
+io.github.pm665.telegramboot.admin.autoconfigure.TelegramBootAdminAutoConfiguration

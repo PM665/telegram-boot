@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Bots Admin</title>
+    <link rel="stylesheet" th:href="@{/tg-boot-admin/css/admin.css}">
+    <script src="https://unpkg.com/htmx.org@2.0.7"></script>
+</head>
+<body>
+<div class="layout">
+    <aside class="sidebar">
+        <h1 class="sidebar__title">Bots</h1>
+        <div class="sidebar__actions" th:if="${newBotPage != null}">
+            <button class="bot-button bot-button--new"
+                    type="button"
+                    th:attr="hx-get=@{/admin/bots/new}"
+                    hx-target="#main-content"
+                    hx-trigger="click"
+                    hx-swap="innerHTML">
+                <span class="bot-button__name">+ Create a new bot</span>
+            </button>
+        </div>
+        <ul class="bot-list" th:if="${#lists.isEmpty(bots)}">
+            <li class="bot-list__empty">No bots available</li>
+        </ul>
+        <ul class="bot-list" th:if="${!#lists.isEmpty(bots)}">
+            <li th:each="bot : ${bots}">
+                <button class="bot-button"
+                        type="button"
+                        th:attr="hx-get=@{/admin/bots/{username}(username=${bot.username})}"
+                        hx-target="#main-content"
+                        hx-trigger="click"
+                        hx-swap="innerHTML">
+                    <span class="status-indicator" th:classappend="${bot.enabled} ? ' enabled' : ' disabled'"></span>
+                    <span class="bot-button__name" th:text="'@' + ${bot.username}">@username</span>
+                </button>
+            </li>
+        </ul>
+
+        <section class="sidebar__section">
+            <h2 class="sidebar__subtitle">Service pages</h2>
+            <ul class="service-list" th:if="${#lists.isEmpty(servicePages)}">
+                <li class="service-list__empty">No service pages</li>
+            </ul>
+            <ul class="service-list" th:if="${!#lists.isEmpty(servicePages)}">
+                <li th:each="page : ${servicePages}">
+                    <button class="service-button"
+                            type="button"
+                            th:attr="hx-get=@{/admin/services/{slug}(slug=${page.slug})}"
+                            hx-target="#main-content"
+                            hx-trigger="click"
+                            hx-swap="innerHTML">
+                        <span th:text="${page.title}">Service page</span>
+                    </button>
+                </li>
+            </ul>
+        </section>
+    </aside>
+
+    <main class="content">
+        <div id="main-content"
+             th:insert="~{fragments/bot-content :: botContent (selectedBot=${selectedBot}, botPages=${botPages})}">
+            <p>Loading...</p>
+        </div>
+    </main>
+</div>
+<script>
+    document.addEventListener('click', function (event) {
+        const tabButton = event.target.closest('.tab-button');
+        if (!tabButton) {
+            return;
+        }
+
+        const tabsContainer = tabButton.closest('.bot-tabs');
+        if (!tabsContainer) {
+            return;
+        }
+
+        const targetPage = tabButton.dataset.page;
+        tabsContainer.querySelectorAll('.tab-button').forEach(function (button) {
+            button.classList.toggle('active', button === tabButton);
+        });
+        tabsContainer.querySelectorAll('.tab-content').forEach(function (content) {
+            content.classList.toggle('active', content.dataset.page === targetPage);
+        });
+    });
+</script>
+</body>
+</html>

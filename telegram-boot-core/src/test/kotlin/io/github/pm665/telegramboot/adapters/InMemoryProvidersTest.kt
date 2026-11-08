@@ -10,6 +10,8 @@ import io.github.pm665.telegramboot.domain.telegram.Menu
 import io.github.pm665.telegramboot.domain.telegram.Message
 import io.github.pm665.telegramboot.domain.telegram.Role
 import io.github.pm665.telegramboot.domain.telegram.UserRole
+import io.github.pm665.telegramboot.features.bots.InMemoryBotsService
+import io.github.pm665.telegramboot.ports.BotsService
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import java.time.LocalDateTime
@@ -159,5 +161,21 @@ class InMemoryProvidersTest {
 
         provider.removeUserRole(null, 1L, Role.SUPER_ADMIN)
         assertThat(provider.getUserRoles()).containsExactly(scopedAdmin)
+    }
+
+    @Test
+    fun `in memory bots service registers and unregisters bots`() {
+        val service = InMemoryBotsService()
+        val initial = BotsService.Bot("token-1", "espresso_bot")
+
+        service.register(initial)
+        assertThat(service.findAllActiveBots()).containsExactly(initial)
+
+        val replacement = BotsService.Bot("token-2", "espresso_bot")
+        service.register(replacement)
+        assertThat(service.findAllActiveBots()).containsExactly(replacement)
+
+        service.unregister("espresso_bot")
+        assertThat(service.findAllActiveBots()).isEmpty()
     }
 }

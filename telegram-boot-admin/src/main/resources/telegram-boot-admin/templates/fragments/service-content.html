@@ -1,0 +1,10 @@
+<div th:fragment="serviceContent (page)">
+    <div class="bot-content">
+        <div class="service-details">
+            <h2 th:text="${page.title()}">Service page</h2>
+            <div th:replace="~{${page.template()} :: servicePageContent}">
+                <p>Loading service page...</p>
+            </div>
+        </div>
+    </div>
+</div>

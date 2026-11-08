@@ -1,0 +1,14 @@
+package io.github.pm665.telegramboot.admin.autoconfigure
+
+import io.github.pm665.telegramboot.admin.TelegramBootAdminConfiguration
+import io.github.pm665.telegramboot.infrastructure.BackendConfigProperties
+import org.springframework.boot.autoconfigure.AutoConfiguration
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
+import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.context.annotation.Import
+
+@AutoConfiguration
+@ConditionalOnClass(TelegramBootAdminConfiguration::class)
+@Import(TelegramBootAdminConfiguration::class)
+@EnableConfigurationProperties(BackendConfigProperties::class)
+class TelegramBootAdminAutoConfiguration

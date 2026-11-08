@@ -15,7 +15,7 @@ class TelegramBootServiceTest {
 
         val service = TelegramBootService(properties)
 
-        assertThat(service.botName()).isEqualTo("test-bot")
+        assertThat(service.botName).isEqualTo("test-bot")
     }
 
     @Test
