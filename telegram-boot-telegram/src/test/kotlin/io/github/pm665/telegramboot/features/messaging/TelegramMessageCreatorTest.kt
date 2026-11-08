@@ -8,10 +8,20 @@ import io.github.pm665.telegramboot.ports.UsersService
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup
 
 class TelegramMessageCreatorTest {
+    @Test
+    fun `createBotApiMessage sends text as HTML`() {
+        val creator = TelegramMessageCreator(NoopUsersService(), InMemoryCallbackDataService(), IdentityMessageTextProcessor())
+        val message = creator.createBotApiMessage(SendMessageMarkup("<b>Hello</b>"), emptyMap(), 42L, "bot") as SendMessage
+
+        assertThat(message.parseMode).isEqualTo("html")
+        assertThat(message.text).isEqualTo("<b>Hello</b>")
+    }
+
     @Test
     fun `createBotApiMessage builds sendPhoto for uploaded bytes with caption and keyboard`() {
         val creator = TelegramMessageCreator(NoopUsersService(), InMemoryCallbackDataService(), IdentityMessageTextProcessor())
@@ -36,7 +46,7 @@ class TelegramMessageCreatorTest {
         val sendPhoto = method as SendPhoto
         assertThat(sendPhoto.chatId).isEqualTo("42")
         assertThat(sendPhoto.caption).isEqualTo("announcement.text")
-        assertThat(sendPhoto.parseMode).isEqualTo("Markdown")
+        assertThat(sendPhoto.parseMode).isEqualTo("HTML")
         assertThat(sendPhoto.photo.mediaName).isEqualTo("banner.jpg")
         assertThat(sendPhoto.photo.newMediaStream).isNotNull
         assertThat(sendPhoto.replyMarkup).isInstanceOf(InlineKeyboardMarkup::class.java)
@@ -111,7 +121,7 @@ class TelegramMessageCreatorTest {
         val sendPhoto = method as SendPhoto
         assertThat(sendPhoto.chatId).isEqualTo("42")
         assertThat(sendPhoto.caption).isEqualTo("announcement.text")
-        assertThat(sendPhoto.parseMode).isEqualTo("Markdown")
+        assertThat(sendPhoto.parseMode).isEqualTo("HTML")
         assertThat(sendPhoto.photo.newMediaStream).isNull()
         assertThat(sendPhoto.photo.mediaName).isNull()
         assertThat(sendPhoto.replyMarkup).isInstanceOf(InlineKeyboardMarkup::class.java)

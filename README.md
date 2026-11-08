@@ -25,3 +25,5 @@ Publishing to Maven Central relies on the Gradle Maven Publish plugin that is co
 | `GPG_PASSPHRASE` | The passphrase for the private signing key. |
 
 If the workflow fails with `Upload failed: {"error":{"message":"Invalid token"}}`, refresh the token backing the `SONATYPE_PASSWORD` secret in the Sonatype Central Portal and update the secret value so that the build service can authenticate successfully.
+
+Message templates use HTML formatting (for example, `<b>bold</b>`) for Telegram and MAX. Migrate existing Markdown templates to HTML; escape literal `&`, `<`, and `>` in message text. Telegram photo captions use the standard Bot API HTML format; admin rich messages use rich HTML.

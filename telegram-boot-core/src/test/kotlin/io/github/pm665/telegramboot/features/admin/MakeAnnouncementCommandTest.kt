@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test
 
 class MakeAnnouncementCommandTest {
     @Test
-    fun `receiveBroadcastMessage saves formatted markdown text`() {
+    fun `receiveBroadcastMessage saves formatted HTML text`() {
         val broadcastService = CapturingBroadcastMessagesService()
         val command =
             MakeAnnouncementCommand(
@@ -53,7 +53,7 @@ class MakeAnnouncementCommandTest {
         assertThat(result.messagesToSend.first().text).isEqualTo("broadcast.confirm")
         assertThat(result.messagesToSend.first().replyToMessageId).isEqualTo("77")
         assertThat(broadcastService.saved).hasSize(1)
-        assertThat(broadcastService.saved.first().message).isEqualTo("Hi *bold*")
+        assertThat(broadcastService.saved.first().message).isEqualTo("Hi <b>bold</b>")
     }
 
     private class CapturingBroadcastMessagesService : BroadcastMessagesService {

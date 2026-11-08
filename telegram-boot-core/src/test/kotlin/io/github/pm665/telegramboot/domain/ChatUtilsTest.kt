@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test
 
 class ChatUtilsTest {
     @Test
-    fun `extractFormattedMessage builds markdown from entities`() {
+    fun `extractFormattedMessage builds HTML from entities`() {
         val update =
             BotUpdate(
                 message =
@@ -25,7 +25,7 @@ class ChatUtilsTest {
 
         val formatted = ChatUtils.extractFormattedMessage(update)
 
-        assertThat(formatted).isEqualTo("Hi *bold*")
+        assertThat(formatted).isEqualTo("Hi <b>bold</b>")
     }
 
     @Test
@@ -35,6 +35,19 @@ class ChatUtilsTest {
         val formatted = ChatUtils.extractFormattedMessage(update)
 
         assertThat(formatted).isEqualTo("simple text")
+    }
+
+    @Test
+    fun `extractFormattedMessage escapes text and link attributes`() {
+        val update = BotUpdate(message = BotIncomingMessage(
+            text = "A & link <tag>",
+            entities = listOf(BotMessageEntity("text_link", 4, 4, url = "https://example.com/?a=1&b=2")),
+        ))
+
+        assertThat(ChatUtils.extractFormattedMessage(update))
+            .isEqualTo("A &amp; <a href=\"https://example.com/?a=1&amp;b=2\">link</a> &lt;tag&gt;")
+        assertThat(ChatUtils.extractFormattedMessage(BotUpdate(message = BotIncomingMessage(text = "< & >"))))
+            .isEqualTo("&lt; &amp; &gt;")
     }
 
     @Test
