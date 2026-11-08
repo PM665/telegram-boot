@@ -1,3 +1,5 @@
+import com.vanniktech.maven.publish.MavenPublishBaseExtension
+import org.gradle.api.publish.tasks.GenerateModuleMetadata
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
@@ -8,6 +10,7 @@ plugins {
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.kotlin.spring)
     alias(libs.plugins.spotless)
+    id("com.vanniktech.maven.publish") version "0.37.0" apply false
 }
 
 val springBootVersion = libs.versions.springBoot.get()
@@ -54,6 +57,39 @@ subprojects {
     apply(plugin = "org.jetbrains.kotlin.kapt")
     apply(plugin = "org.jetbrains.kotlin.plugin.spring")
     apply(plugin = "com.diffplug.spotless")
+
+    pluginManager.withPlugin("java-library") {
+        apply(plugin = "com.vanniktech.maven.publish")
+        extensions.configure<MavenPublishBaseExtension> {
+            publishToMavenCentral()
+            signAllPublications()
+            pom {
+                name.set(project.name)
+                description.set("Telegram-Boot libraries for building bots with Spring Boot")
+                url.set("https://github.com/PM665/telegram-boot")
+                licenses {
+                    license {
+                        name.set("The Apache License, Version 2.0")
+                        url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
+                    }
+                }
+                developers {
+                    developer {
+                        id.set("pm665")
+                        name.set("Pavel Minin")
+                    }
+                }
+                scm {
+                    url.set("https://github.com/PM665/telegram-boot")
+                    connection.set("scm:git:https://github.com/PM665/telegram-boot.git")
+                    developerConnection.set("scm:git:ssh://git@github.com/PM665/telegram-boot.git")
+                }
+            }
+        }
+        tasks.withType<GenerateModuleMetadata>().configureEach {
+            suppressedValidationErrors.add("enforced-platform")
+        }
+    }
 
     pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
         extensions.configure<KotlinJvmProjectExtension> {
