@@ -12,18 +12,19 @@ import org.mockito.Mockito.doThrow
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
 import org.telegram.telegrambots.longpolling.TelegramBotsLongPollingApplication
+import org.telegram.telegrambots.meta.TelegramUrl
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException
 
 class BotManagerTest {
     private val application = mock(TelegramBotsLongPollingApplication::class.java)
     private val botsFactory = mock(BotsFactory::class.java)
     private val messageSender = mock(TelegramMessageSender::class.java)
-    private val manager = BotManager(application, botsFactory, messageSender)
+    private val manager = BotManager(application, botsFactory, messageSender, TelegramUrl.DEFAULT_URL)
 
     @Test
     fun `start bot exposes telegram registration failure`() {
         `when`(botsFactory.getClient("park_bot")).thenReturn(mock(OperatorBot::class.java))
-        doThrow(TelegramApiException("invalid token")).`when`(application).registerBot(eq("token"), any())
+        doThrow(TelegramApiException("invalid token")).`when`(application).registerBot(eq("token"), any(), any(), any())
 
         assertThatThrownBy { manager.startBot(Bot("token", "park_bot")) }
             .isInstanceOf(TelegramApiException::class.java)

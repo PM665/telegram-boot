@@ -17,7 +17,9 @@ import org.springframework.context.annotation.Conditional
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.type.AnnotatedTypeMetadata
 import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient
+import org.telegram.telegrambots.meta.TelegramUrl
 import org.telegram.telegrambots.meta.generics.TelegramClient
+import java.net.URI
 
 @Configuration(proxyBeanMethods = false)
 @Conditional(AdminBotEnabledCondition::class)
@@ -28,15 +30,17 @@ class AdminBotConfiguration {
     fun adminWebhookTelegramClient(
         properties: TelegramAdminProperties,
         @Value("\${telegram-boot.admin.telegram-api-debug:false}") telegramApiDebug: Boolean,
-    ): TelegramClient =
-        if (telegramApiDebug) {
-            OkHttpTelegramClient(
-                OkHttpClient.Builder().addInterceptor(TelegramApiDebugInterceptor()).build(),
-                properties.telegramLoginBotToken.trim(),
-            )
-        } else {
-            OkHttpTelegramClient(properties.telegramLoginBotToken.trim())
-        }
+        @Value("\${telegram-boot.admin.telegram-api-url:\${telegram-boot.telegram.api-url:https://api.telegram.org}}") apiUrl: String,
+    ): TelegramClient {
+        val uri = URI(apiUrl)
+        require(uri.scheme in listOf("http", "https") && uri.host != null && uri.userInfo == null &&
+            uri.rawPath.orEmpty().trim('/').isEmpty() && uri.query == null && uri.fragment == null &&
+            (uri.port == -1 || uri.port in 1..65535)) { "telegram-boot.admin.telegram-api-url must be an HTTP(S) origin" }
+        val telegramUrl = TelegramUrl(uri.scheme, uri.host, if (uri.port == -1) if (uri.scheme == "https") 443 else 80 else uri.port, false)
+        val client = OkHttpClient.Builder()
+        if (telegramApiDebug) client.addInterceptor(TelegramApiDebugInterceptor())
+        return OkHttpTelegramClient(client.build(), properties.telegramLoginBotToken.trim(), telegramUrl)
+    }
 
     @Bean
     fun adminBot(

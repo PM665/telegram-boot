@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory
 import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient
 import org.telegram.telegrambots.longpolling.BotSession
 import org.telegram.telegrambots.longpolling.interfaces.LongPollingUpdateConsumer
+import org.telegram.telegrambots.meta.TelegramUrl
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto
 import org.telegram.telegrambots.meta.api.objects.message.Message
@@ -16,13 +17,14 @@ open class DefaultActionOperatorBot(
     botToken: String,
     override val botUsername: String,
     updateHandler: BotUpdateHandler,
+    telegramApiUrl: TelegramUrl = TelegramUrl.DEFAULT_URL,
 ) : OperatorBot { // implement interface
     private val log = LoggerFactory.getLogger(DefaultActionOperatorBot::class.java)
 
     override val updatesConsumer: LongPollingUpdateConsumer =
         TelegramBotUpdateConsumer(botUsername, TelegramUpdateMapper(), updateHandler)
 
-    val telegramClient: TelegramClient = OkHttpTelegramClient(botToken)
+    val telegramClient: TelegramClient = OkHttpTelegramClient(botToken, telegramApiUrl)
 
     var botSession: BotSession? = null
 

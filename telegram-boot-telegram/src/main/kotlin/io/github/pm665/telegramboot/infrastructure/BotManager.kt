@@ -8,6 +8,8 @@ import io.github.pm665.telegramboot.ports.BotsService.Bot
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.telegram.telegrambots.longpolling.TelegramBotsLongPollingApplication
+import org.telegram.telegrambots.longpolling.util.DefaultGetUpdatesGenerator
+import org.telegram.telegrambots.meta.TelegramUrl
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException
 
 @Service
@@ -15,6 +17,7 @@ class BotManager(
     private val application: TelegramBotsLongPollingApplication,
     private val botsFactory: BotsFactory,
     private val messageSender: TelegramMessageSender,
+    private val telegramApiUrl: TelegramUrl,
 ) : BotLifecycleDriver {
     private val log = LoggerFactory.getLogger(BotManager::class.java)
     override val platform = BotPlatform.TELEGRAM
@@ -23,7 +26,7 @@ class BotManager(
         require(bot.platform == platform) { "Cannot start ${bot.platform} bot with Telegram manager" }
         log.info("Starting bot {}", bot.botUsername)
         val botBean = botsFactory.getClient(bot.botUsername)
-        val botSession = application.registerBot(bot.token, botBean.updatesConsumer)
+        val botSession = application.registerBot(bot.token, { telegramApiUrl }, DefaultGetUpdatesGenerator(), botBean.updatesConsumer)
         botBean.afterRegistration(botSession)
         messageSender.sendCommands(bot.botUsername, mapOf("start" to "start.command"))
     }

@@ -5,12 +5,14 @@ import io.github.pm665.telegramboot.ports.BotsService
 import io.github.pm665.telegramboot.ports.BotsService.Bot
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.stereotype.Component
+import org.telegram.telegrambots.meta.TelegramUrl
 
 @Component
 class BotsFactory(
     private val applicationContext: ConfigurableApplicationContext,
     private val botsService: BotsService,
     private val botUpdateHandler: BotUpdateHandler,
+    telegramApiUrl: TelegramUrl,
 ) : AdvisorRegisteringClientRegistry<OperatorBot>(
         appContext = applicationContext,
         clientClass = OperatorBot::class.java,
@@ -20,6 +22,7 @@ class BotsFactory(
                 bot.token,
                 bot.botUsername,
                 botUpdateHandler,
+                telegramApiUrl,
             )
         },
     ) {

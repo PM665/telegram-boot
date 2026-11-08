@@ -20,5 +20,6 @@ include(
     "telegram-boot-spring-data",
     "telegram-boot-spring-boot-starter",
     "telegram-boot-admin",
-    "telegram-boot-sample-app",
+    "telegram-boot-e2e-tests",
+    "examples:telegram-boot-sample-app",
 )

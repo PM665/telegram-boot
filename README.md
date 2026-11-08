@@ -11,7 +11,6 @@
 - [telegram-boot-spring-data](telegram-boot-spring-data/README.md)
 - [telegram-boot-spring-boot-starter](telegram-boot-spring-boot-starter/README.md)
 - [telegram-boot-admin](telegram-boot-admin/README.md)
-- [telegram-boot-sample-app](telegram-boot-sample-app/README.md)
 
 ## Publishing
 
