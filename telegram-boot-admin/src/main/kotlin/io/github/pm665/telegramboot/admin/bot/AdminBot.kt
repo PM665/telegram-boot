@@ -139,7 +139,7 @@ class AdminBot(
                 .firstOrNull { command in it.commands }
                 ?.name
                 ?: command
-        return "Получена команда $name"
+        return "Command received: $name"
     }
 
     private fun startMessage(): String =

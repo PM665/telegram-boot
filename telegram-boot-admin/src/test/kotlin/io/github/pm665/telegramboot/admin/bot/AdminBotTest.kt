@@ -65,7 +65,7 @@ class AdminBotTest {
 
         val edited = ArgumentCaptor.forClass(EditRichMessage::class.java)
         verify(telegramClient, times(2)).execute(edited.capture())
-        assertThat(edited.allValues[0].richMessage.html).contains("Назад")
+        assertThat(edited.allValues[0].richMessage.html).contains("Back")
         assertThat(edited.allValues[1].richMessage.html).contains("Service health")
     }
 
@@ -168,10 +168,10 @@ class AdminBotTest {
             permissionsService,
             adminCommands =
                 listOf(
-                    TestCommand(listOf("/bots"), "Боты", "🤖", true),
-                    TestCommand(listOf("/health"), "Здоровье", "🩺", true),
-                    TestCommand(listOf("/registrations"), "Регистрации", "📝", true),
-                    TestCommand(listOf("/hidden"), "Скрытая", "🔒", false),
+                    TestCommand(listOf("/bots"), "Bots", "🤖", true),
+                    TestCommand(listOf("/health"), "Health", "🩺", true),
+                    TestCommand(listOf("/registrations"), "Registrations", "📝", true),
+                    TestCommand(listOf("/hidden"), "Hidden", "🔒", false),
                 ),
         ).handle(startUpdate())
 
@@ -179,10 +179,10 @@ class AdminBotTest {
         verify(telegramClient).execute(reply.capture())
         assertThat(reply.value.richMessage.html)
             .contains(
-                "style=\"primary\" data=\"/bots\">🤖 Боты",
-                "style=\"primary\" data=\"/health\">🩺 Здоровье",
-                "style=\"primary\" data=\"/registrations\">📝 Регистрации",
-            ).doesNotContain("/hidden", "Скрытая", "🔒")
+                "style=\"primary\" data=\"/bots\">🤖 Bots",
+                "style=\"primary\" data=\"/health\">🩺 Health",
+                "style=\"primary\" data=\"/registrations\">📝 Registrations",
+            ).doesNotContain("/hidden", "Hidden", "🔒")
     }
 
     @Test
@@ -322,7 +322,7 @@ class AdminBotTest {
                     message = "Registrations",
                     recipientsUserIds = listOf(42),
                     tag = null,
-                    richHtml = "<h1>Registrations</h1><tg-button-row>Назад</tg-button-row>",
+                    richHtml = "<h1>Registrations</h1><tg-button-row>Back</tg-button-row>",
                     editChatId = 420,
                     editMessageId = 77,
                 ),
@@ -332,7 +332,7 @@ class AdminBotTest {
         verify(telegramClient).execute(edited.capture())
         assertThat(edited.value.chatId).isEqualTo("420")
         assertThat(edited.value.messageId).isEqualTo(77)
-        assertThat(edited.value.richMessage.html).contains("Назад")
+        assertThat(edited.value.richMessage.html).contains("Back")
         verify(telegramClient, never()).execute(any(SendRichMessage::class.java))
     }
 
@@ -375,7 +375,7 @@ class AdminBotTest {
         val callbackAnswer = ArgumentCaptor.forClass(AnswerCallbackQuery::class.java)
         verify(telegramClient).execute(callbackAnswer.capture())
         assertThat(callbackAnswer.value.callbackQueryId).isEqualTo("callback-id")
-        assertThat(callbackAnswer.value.text).isEqualTo("Получена команда Проверка здоровья ботов")
+        assertThat(callbackAnswer.value.text).isEqualTo("Command received: Bot health check")
     }
 
     @Test
@@ -440,7 +440,7 @@ class AdminBotTest {
                 }
         }
 
-    private class HealthCommand : AdminBotCommand(listOf("/health"), "Проверка здоровья ботов")
+    private class HealthCommand : AdminBotCommand(listOf("/health"), "Bot health check")
 
     private class TestCommand(
         commands: List<String>,

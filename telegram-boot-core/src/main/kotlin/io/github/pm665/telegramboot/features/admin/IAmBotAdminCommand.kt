@@ -98,13 +98,13 @@ class IAmBotAdminCommand(
         if (approverChatIds.isEmpty()) {
             eventPublisher.publishEvent(
                 SendAdminMessageEvent(
-                    message = "Запрос на роль бот-администратора",
+                    message = "Bot administrator role request",
                     recipientsUserIds = emptyList(),
                     tag = null,
                     buttons =
                         listOf(
                             AdminMessageButton(
-                                text = "Одобрить",
+                                text = "Approve",
                                 callbackData = "$ADMIN_APPROVE_COMMAND ${user.botUserId} $newApproveCode",
                             ),
                         ),
@@ -172,7 +172,7 @@ class IAmBotAdminCommand(
         val linkedUser = userUrl?.let { "<a href=\"${it.htmlEscape()}\">$displayName</a>" } ?: displayName
         val botLabel = "@${botUsername.removePrefix("@").htmlEscape()}"
         val linkedBot = botUrl?.let { "<a href=\"${it.htmlEscape()}\">$botLabel</a>" } ?: botLabel
-        return "<h1>Запрос на роль бот-администратора</h1><p>Пользователь $linkedUser запросил доступ к боту $linkedBot.</p>"
+        return "<h1>Bot administrator role request</h1><p>User $linkedUser requested access to bot $linkedBot.</p>"
     }
 
     private fun performApprove(

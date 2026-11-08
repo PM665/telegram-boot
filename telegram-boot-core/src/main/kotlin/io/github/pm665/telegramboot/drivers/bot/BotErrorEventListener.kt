@@ -14,7 +14,7 @@ class BotErrorEventListener(
     fun onBotError(event: BotErrorEvent) {
         eventPublisher.publishEvent(
             SendAdminMessageEvent(
-                "Необработанная ошибка в парковом боте @${event.botUsername}: ${event.exception.javaClass.simpleName}",
+                "Unhandled error in fleet bot @${event.botUsername}: ${event.exception.javaClass.simpleName}",
                 emptyList(),
                 null,
             ),

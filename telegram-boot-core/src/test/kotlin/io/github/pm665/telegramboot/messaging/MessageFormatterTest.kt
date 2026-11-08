@@ -20,7 +20,7 @@ class MessageFormatterTest {
                     "isCorp",
                     "yes",
                     "points",
-                    "Точка 1Точка 2Точка 3",
+                    "Point 1Point 2Point 3",
                 ),
             )
         Assertions.assertEquals(RESULT1, result)
@@ -38,7 +38,7 @@ class MessageFormatterTest {
                     "price",
                     "1000",
                     "points",
-                    "Точка 1Точка 2Точка 3",
+                    "Point 1Point 2Point 3",
                 ),
             )
         Assertions.assertEquals(RESULT2, result)
@@ -79,32 +79,32 @@ class MessageFormatterTest {
     companion object {
         val TEMPLATE: String =
             """
-            *Текущий заказ*: {{order}}
-            *Предварительная стоимость поездки*: {{price}}
+            *Current order*: {{order}}
+            *Estimated trip cost*: {{price}}
             {{#isCorp}}
-            *ЗАКАЗ КОРПОРАТИВНЫЙ!*
-            Для водителя цена может быть меньше, чем платит компания Яндексу!
+            *CORPORATE ORDER!*
+            The driver may receive less than the company pays Yandex!
             {{/isCorp}}
-            *Точки маршрута*:
+            *Route points*:
             {{points}}
             
             """.trimIndent()
         val RESULT1: String =
             """
-            *Текущий заказ*: 1234567890
-            *Предварительная стоимость поездки*: 1000
-            *ЗАКАЗ КОРПОРАТИВНЫЙ!*
-            Для водителя цена может быть меньше, чем платит компания Яндексу!
-            *Точки маршрута*:
-            Точка 1Точка 2Точка 3
+            *Current order*: 1234567890
+            *Estimated trip cost*: 1000
+            *CORPORATE ORDER!*
+            The driver may receive less than the company pays Yandex!
+            *Route points*:
+            Point 1Point 2Point 3
             
             """.trimIndent()
         val RESULT2: String =
             """
-            *Текущий заказ*: 1234567890
-            *Предварительная стоимость поездки*: 1000
-            *Точки маршрута*:
-            Точка 1Точка 2Точка 3
+            *Current order*: 1234567890
+            *Estimated trip cost*: 1000
+            *Route points*:
+            Point 1Point 2Point 3
             
             """.trimIndent()
     }

@@ -42,7 +42,7 @@ class TelegramUpdateMapperTest {
                                 languageCode = "ru"
                                 lastName = "Rider"
                             }
-                        text = "Заказ 42"
+                        text = "Order 42"
                         entities = listOf(MessageEntity("text_link", 0, 5).apply { url = "https://example.com" })
                         location = Location(37.62, 55.75)
                     }
@@ -58,7 +58,7 @@ class TelegramUpdateMapperTest {
                         messageId = "456",
                         chat = BotChatInfo(789L, BotChatType.PRIVATE),
                         from = BotUserInfo(987L, "alex_driver", "ru", "Alex", "Rider"),
-                        text = "Заказ 42",
+                        text = "Order 42",
                         entities = listOf(BotMessageEntity("text_link", 0, 5, "https://example.com")),
                         location = BotLocation(55.75, 37.62),
                     ),

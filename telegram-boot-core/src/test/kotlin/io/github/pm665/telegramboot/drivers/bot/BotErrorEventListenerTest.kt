@@ -18,6 +18,6 @@ class BotErrorEventListenerTest {
 
         listener.onBotError(BotErrorEventListener.BotErrorEvent("alpha_bot", BotUpdate(), IllegalStateException("secret")))
 
-        assertThat(events).containsExactly(SendAdminMessageEvent("Необработанная ошибка в парковом боте @alpha_bot: IllegalStateException", emptyList(), null))
+        assertThat(events).containsExactly(SendAdminMessageEvent("Unhandled error in fleet bot @alpha_bot: IllegalStateException", emptyList(), null))
     }
 }

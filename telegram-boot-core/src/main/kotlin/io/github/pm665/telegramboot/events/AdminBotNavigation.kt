@@ -74,7 +74,7 @@ class AdminBotNavigation {
         if (response.editChatId != chatId) return response
         if (history[MessageKey(chatId, messageId)].orEmpty().size < 2) return response
         if (response.buttons.any { it.callbackData == BACK_CALLBACK }) return response
-        return response.copy(buttons = response.buttons + AdminMessageButton("Назад", BACK_CALLBACK))
+        return response.copy(buttons = response.buttons + AdminMessageButton("Back", BACK_CALLBACK))
     }
 
     private fun AdminBotActionEvent.key(): MessageKey? = sourceMessageId?.let { MessageKey(chatId, it) }

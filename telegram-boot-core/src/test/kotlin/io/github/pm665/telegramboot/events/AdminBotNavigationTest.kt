@@ -19,7 +19,7 @@ class AdminBotNavigationTest {
             )
 
         assertThat(listReply.editMessageId).isEqualTo(77)
-        assertThat(listReply.buttons).containsExactly(AdminMessageButton("Назад", AdminBotNavigation.BACK_CALLBACK))
+        assertThat(listReply.buttons).containsExactly(AdminMessageButton("Back", AdminBotNavigation.BACK_CALLBACK))
 
         val details = action("/registration 7", 77)
         navigation.track(command, details)
@@ -29,7 +29,7 @@ class AdminBotNavigationTest {
                 navigation.prepare(42, 420, SendAdminMessageEvent("Details", listOf(42), null)),
             )
 
-        assertThat(detailsReply.buttons).containsExactly(AdminMessageButton("Назад", AdminBotNavigation.BACK_CALLBACK))
+        assertThat(detailsReply.buttons).containsExactly(AdminMessageButton("Back", AdminBotNavigation.BACK_CALLBACK))
 
         val back = navigation.resolve(action(AdminBotNavigation.BACK_CALLBACK, 77))
 
@@ -72,7 +72,7 @@ class AdminBotNavigationTest {
         val reply = navigation.withBackButton(420, prepared)
 
         assertThat(prepared.buttons).isEmpty()
-        assertThat(reply.buttons).containsExactly(AdminMessageButton("Назад", AdminBotNavigation.BACK_CALLBACK))
+        assertThat(reply.buttons).containsExactly(AdminMessageButton("Back", AdminBotNavigation.BACK_CALLBACK))
         assertThat(reply.richHtml).doesNotContain(AdminBotNavigation.BACK_CALLBACK)
     }
 
@@ -98,7 +98,7 @@ class AdminBotNavigationTest {
                 ),
             )
 
-        assertThat(progress.buttons).containsExactly(AdminMessageButton("Назад", AdminBotNavigation.BACK_CALLBACK))
+        assertThat(progress.buttons).containsExactly(AdminMessageButton("Back", AdminBotNavigation.BACK_CALLBACK))
         assertThat(navigation.resolve(action(AdminBotNavigation.BACK_CALLBACK, 77)).action.callbackData).isEqualTo("/start")
     }
 
