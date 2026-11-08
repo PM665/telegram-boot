@@ -1,5 +1,18 @@
 # telegram-boot
 
+## Modules
+
+- [telegram-boot-core](telegram-boot-core/README.md)
+- [telegram-boot-telegram](telegram-boot-telegram/README.md)
+- [telegram-boot-max](telegram-boot-max/README.md)
+- [telegram-boot-gmail](telegram-boot-gmail/README.md)
+- [telegram-boot-ai](telegram-boot-ai/README.md)
+- [telegram-boot-autoconfigure](telegram-boot-autoconfigure/README.md)
+- [telegram-boot-spring-data](telegram-boot-spring-data/README.md)
+- [telegram-boot-spring-boot-starter](telegram-boot-spring-boot-starter/README.md)
+- [telegram-boot-admin](telegram-boot-admin/README.md)
+- [telegram-boot-sample-app](telegram-boot-sample-app/README.md)
+
 ## Publishing
 
 Publishing to Maven Central relies on the Gradle Maven Publish plugin that is configured in the GitHub Actions workflow at [`.github/workflows/publish.yml`](.github/workflows/publish.yml). To run the `publishToMavenCentral` task successfully you must provide valid credentials via repository secrets:
