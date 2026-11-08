@@ -2,6 +2,7 @@ package io.github.pm665.telegramboot.infrastructure
 
 import com.sun.net.httpserver.HttpServer
 import io.github.pm665.telegramboot.TelegramBootTelegramAutoConfiguration
+import io.github.pm665.telegramboot.domain.configuration.TelegramProperties
 import io.github.pm665.telegramboot.drivers.bot.BotUpdateHandler
 import io.github.pm665.telegramboot.drivers.telegram.BotsFactory
 import io.github.pm665.telegramboot.drivers.telegram.DefaultActionOperatorBot
@@ -39,7 +40,7 @@ class TelegramApiUrlTest {
         }
         server.start()
         try {
-            val url = TelegramBootTelegramAutoConfiguration().telegramApiUrl("http://127.0.0.1:${server.address.port}")
+            val url = TelegramBootTelegramAutoConfiguration().telegramApiUrl(TelegramProperties("http://127.0.0.1:${server.address.port}"))
             TelegramPlatformBotTokenValidator(url).validate("token", "test_bot")
             val bot = DefaultActionOperatorBot("token", "test_bot", mock(BotUpdateHandler::class.java), url)
             assertThat(bot.execute(GetMyCommands())).isEmpty()

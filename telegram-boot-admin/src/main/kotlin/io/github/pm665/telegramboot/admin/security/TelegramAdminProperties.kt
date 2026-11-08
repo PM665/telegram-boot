@@ -9,4 +9,6 @@ data class TelegramAdminProperties(
     val telegramLoginMaxAgeSeconds: Long = 300,
     val botBaseUrl: String = "",
     val miniAppUrl: String = "",
+    val telegramApiDebug: Boolean = false,
+    val telegramApiUrl: String? = null,
 )

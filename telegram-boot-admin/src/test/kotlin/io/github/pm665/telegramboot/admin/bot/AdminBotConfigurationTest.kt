@@ -22,6 +22,32 @@ class AdminBotConfigurationTest {
             .withBean(PermissionsService::class.java, { mock(PermissionsService::class.java) })
 
     @Test
+    fun `admin bot inherits telegram api origin and binds admin and ngrok settings`() {
+        val server = HttpServer.create(InetSocketAddress("127.0.0.1", 0), 0)
+        server.createContext("/bottest-token/getme") { request ->
+            val body = "{\"ok\":true,\"result\":{\"id\":1,\"is_bot\":true,\"first_name\":\"Admin\",\"username\":\"admin_bot\"}}".toByteArray()
+            request.sendResponseHeaders(200, body.size.toLong())
+            request.responseBody.use { it.write(body) }
+        }
+        server.start()
+        try {
+            contextRunner.withPropertyValues(
+                "telegram-boot.admin.telegram-login-bot-token=test-token",
+                "telegram-boot.admin.telegram-login-bot-username=admin_bot",
+                "telegram-boot.telegram.api-url=http://127.0.0.1:${server.address.port}",
+                "telegram-boot.admin.telegram-api-debug=true",
+                "ngrok.enabled=true",
+            ).run { context ->
+                assertThat(context.getBean(TelegramClient::class.java).execute(GetMe()).userName).isEqualTo("admin_bot")
+                assertThat(context.getBean(io.github.pm665.telegramboot.admin.security.TelegramAdminProperties::class.java).telegramApiDebug).isTrue()
+                assertThat(context.getBean(NgrokProperties::class.java).enabled).isTrue()
+            }
+        } finally {
+            server.stop(0)
+        }
+    }
+
+    @Test
     fun `admin bot uses its configured api origin`() {
         val server = HttpServer.create(InetSocketAddress("127.0.0.1", 0), 0)
         server.createContext("/bottest-token/getme") { request ->

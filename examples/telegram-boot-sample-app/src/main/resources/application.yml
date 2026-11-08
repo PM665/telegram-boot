@@ -1,0 +1,22 @@
+spring:
+  docker:
+    compose:
+      enabled: false
+server:
+  port: 0
+
+---
+spring:
+  config:
+    activate:
+      on-profile: tgfake
+  docker:
+    compose:
+      enabled: true
+sample:
+  bot:
+    username: tgfake_bot
+    token: "123:fake"
+telegram-boot:
+  telegram:
+    api-url: http://localhost:18790

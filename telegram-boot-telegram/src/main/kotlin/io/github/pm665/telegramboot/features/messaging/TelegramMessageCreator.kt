@@ -50,6 +50,23 @@ class TelegramMessageCreator(
             locale = MessageTextProcessor.DEFAULT_LOCALE
         }
         val messageText = messageTextProcessor.prepareText(sendMessageMarkup.text, locale, messageArgs)
+        val menu = sendMessageMarkup.menuMarkup
+        if (menu?.rich == true) {
+            val html = buildString {
+                append("<p>").append(messageText.htmlEscape()).append("</p>")
+                menu.rows.forEach { row ->
+                    append("<tg-button-row align=\"left\">")
+                    row.buttons.forEach { button ->
+                        val text = messageTextProcessor.prepareText(button.text, locale, messageArgs)
+                        val callback = requireNotNull(resolveCallbackData(button.callbackData))
+                        append("<tg-button type=\"callback_data\" style=\"primary\" data=\"")
+                            .append(callback.htmlEscape()).append("\">").append(text.htmlEscape()).append("</tg-button>")
+                    }
+                    append("</tg-button-row>")
+                }
+            }
+            return SendRichMessage(chatId.toString(), InputRichMessage(html))
+        }
         val markup = createReplyKeyboard(sendMessageMarkup, messageArgs, locale)
         val photo = sendMessageMarkup.photo
         if (photo != null) {
@@ -76,6 +93,9 @@ class TelegramMessageCreator(
             return msg
         }
     }
+
+    private fun String.htmlEscape(): String =
+        replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&quot;")
 
     private fun createPhotoMessage(
         sendMessageMarkup: SendMessageMarkup,

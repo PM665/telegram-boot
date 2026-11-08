@@ -7,20 +7,19 @@ import io.github.pm665.telegramboot.domain.actions.SendMessageMarkup
 import io.github.pm665.telegramboot.domain.annotations.BotAction
 import io.github.pm665.telegramboot.domain.annotations.BotCommand
 import io.github.pm665.telegramboot.ports.BotsService
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.context.properties.ConfigurationProperties
+import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
 
 @SpringBootApplication
+@EnableConfigurationProperties(SampleBotProperties::class)
 class SampleApplication {
     @Bean
-    fun botsService(
-        @Value("\${BOT_USERNAME}") username: String,
-        @Value("\${BOT_TOKEN}") token: String,
-    ): BotsService =
+    fun botsService(properties: SampleBotProperties): BotsService =
         object : BotsService {
-            private val bot = BotsService.Bot(token, username.removePrefix("@"))
+            private val bot = BotsService.Bot(properties.token, properties.username.removePrefix("@"))
 
             override fun findAllActiveBots() = listOf(bot)
 
@@ -28,12 +27,18 @@ class SampleApplication {
         }
 }
 
+@ConfigurationProperties("sample.bot")
+data class SampleBotProperties(
+    val username: String,
+    val token: String,
+)
+
 @BotCommand(name = "hello", accessType = AccessType.ALL, keepMessage = true)
 class HelloCommand {
     @BotAction
     fun hello(context: BotActionContext): ActionResult {
         val username = context.user?.user?.username
-        val greeting = username?.takeIf { it.isNotBlank() }?.let { "@${it.replace("_", "\\_")}" } ?: "there"
+        val greeting = username?.takeIf { it.isNotBlank() } ?: "there"
         return ActionResult.builder().messagesToSend(listOf(SendMessageMarkup("Hello $greeting"))).build()
     }
 }

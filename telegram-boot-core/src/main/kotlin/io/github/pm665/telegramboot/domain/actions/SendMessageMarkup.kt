@@ -81,6 +81,7 @@ open class SendMessageMarkup(
         val title: String? = null,
         val rows: MutableList<MenuRow> = mutableListOf(),
         val maxButtonsPerRow: Int = 1,
+        val rich: Boolean = false,
     ) {
         fun addRow(): MenuRow {
             val row = MenuRow()

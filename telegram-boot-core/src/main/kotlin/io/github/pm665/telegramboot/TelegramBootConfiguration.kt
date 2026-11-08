@@ -17,6 +17,7 @@ import io.github.pm665.telegramboot.features.messaging.MessageFormatter
 import io.github.pm665.telegramboot.features.messaging.MustacheMessageTextProcessor
 import io.github.pm665.telegramboot.features.payments.ConfirmPaymentCommand
 import io.github.pm665.telegramboot.features.payments.drivers.scheduling.BotPaymentReminderJob
+import io.github.pm665.telegramboot.features.start.StartCommand
 import io.github.pm665.telegramboot.infrastructure.BotFeatureSupportService
 import io.github.pm665.telegramboot.infrastructure.BotsConfiguration
 import io.github.pm665.telegramboot.infrastructure.PlatformBotLifecycleService
@@ -51,6 +52,7 @@ import org.springframework.context.annotation.Primary
     MakeAnnouncementCommand::class,
     MenuProcessor::class,
     LanguageCommand::class,
+    StartCommand::class,
     LocalizationService::class,
     MessageFormatter::class,
     MustacheMessageTextProcessor::class,

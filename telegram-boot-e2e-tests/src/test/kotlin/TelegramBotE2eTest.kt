@@ -29,10 +29,38 @@ class TelegramBotE2eTest {
         @DynamicPropertySource
         @JvmStatic
         fun properties(registry: DynamicPropertyRegistry) {
-            registry.add("BOT_TOKEN") { "123:fake" }
-            registry.add("BOT_USERNAME") { "tgfake_bot" }
+            registry.add("sample.bot.token") { "123:fake" }
+            registry.add("sample.bot.username") { "tgfake_bot" }
             registry.add("telegram-boot.telegram.api-url") { "http://${telegram.host}:${telegram.getMappedPort(18790)}" }
         }
+    }
+
+    @Test
+    fun `start sends rich menu and invokes a command on callback`() {
+        val baseUrl = "http://${telegram.host}:${telegram.getMappedPort(18790)}"
+        val client = HttpClient.newHttpClient()
+        fun request(path: String, body: String? = null): HttpResponse<String> {
+            val builder = HttpRequest.newBuilder(URI.create("$baseUrl$path")).timeout(Duration.ofSeconds(5))
+            if (body != null) builder.POST(HttpRequest.BodyPublishers.ofString(body))
+            return client.send(builder.build(), HttpResponse.BodyHandlers.ofString())
+        }
+        fun awaitChat(predicate: (String) -> Boolean): String {
+            val deadline = Instant.now().plusSeconds(10)
+            var chat: String
+            do {
+                chat = request("/sim/chat/4244").body()
+                if (predicate(chat)) return chat
+                Thread.sleep(100)
+            } while (Instant.now().isBefore(deadline))
+            return chat
+        }
+
+        assertThat(request("/sim/message", "{\"text\":\"/start\",\"user_id\":4244,\"username\":\"startuser\"}").statusCode()).isEqualTo(200)
+        val menu = awaitChat { it.contains("\"rich\":true") && it.contains("/hello") }
+        assertThat(menu).contains("\"rich\":true", "/hello")
+        assertThat(request("/sim/callback", "{\"data\":\"/hello\",\"message_id\":2,\"user_id\":4244,\"username\":\"startuser\"}").statusCode()).isEqualTo(200)
+        val chat = awaitChat { it.contains("Hello startuser") && it.contains("cbq-") }
+        assertThat(chat).contains("Hello startuser", "cbq-")
     }
 
     @Test
@@ -54,5 +82,26 @@ class TelegramBotE2eTest {
             Thread.sleep(100)
         } while (Instant.now().isBefore(deadline))
         assertThat(chat).contains("Hello @alice")
+    }
+
+    @Test
+    fun `hello command sends an escaped username in Markdown`() {
+        val baseUrl = "http://${telegram.host}:${telegram.getMappedPort(18790)}"
+        val client = HttpClient.newHttpClient()
+        fun request(path: String, body: String? = null): HttpResponse<String> {
+            val builder = HttpRequest.newBuilder(URI.create("$baseUrl$path")).timeout(Duration.ofSeconds(5))
+            if (body != null) builder.POST(HttpRequest.BodyPublishers.ofString(body))
+            return client.send(builder.build(), HttpResponse.BodyHandlers.ofString())
+        }
+
+        assertThat(request("/sim/message", "{\"text\":\"/hello\",\"user_id\":4243,\"username\":\"test_user\"}").statusCode()).isEqualTo(200)
+        val deadline = Instant.now().plusSeconds(10)
+        var chat: String
+        do {
+            chat = request("/sim/chat/4243").body()
+            if (chat.contains("Hello @test\\\\_user")) break
+            Thread.sleep(100)
+        } while (Instant.now().isBefore(deadline))
+        assertThat(chat).contains("Hello @test\\\\_user", "\"parse_mode\":\"Markdown\"")
     }
 }

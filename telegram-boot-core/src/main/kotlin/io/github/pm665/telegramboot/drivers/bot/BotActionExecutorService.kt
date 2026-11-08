@@ -109,6 +109,10 @@ class BotActionExecutorService(
             return
         }
 
+        context.update?.takeIf { it.callbackQuery != null }?.let {
+            messageSender.sendCallbackNotification(it, "", emptyMap(), botUsername)
+        }
+
         context.userChat = userChat
 
         val chatId = context.chatId

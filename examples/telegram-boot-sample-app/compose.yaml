@@ -1,0 +1,6 @@
+services:
+  tgfake:
+    image: ghcr.io/evilfreelancer/tgfake:1.4.0
+    command: ["--token", "123:fake", "--bot-username", "tgfake_bot"]
+    ports:
+      - "127.0.0.1:18790:18790"
