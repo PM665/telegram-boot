@@ -93,14 +93,14 @@ subprojects {
 
     pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
         extensions.configure<KotlinJvmProjectExtension> {
-            jvmToolchain(25)
+            jvmToolchain(21)
             compilerOptions.jvmDefault.set(JvmDefaultMode.NO_COMPATIBILITY)
         }
     }
 
     java {
         toolchain {
-            languageVersion.set(JavaLanguageVersion.of(25))
+            languageVersion.set(JavaLanguageVersion.of(21))
         }
     }
 

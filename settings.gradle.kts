@@ -5,7 +5,7 @@ pluginManagement {
         maven("https://repo.spring.io/milestone")
     }
     plugins {
-        kotlin("kapt") version "2.4.21"
+        kotlin("kapt") version "2.4.10"
     }
 }
 

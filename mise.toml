@@ -1,8 +1,11 @@
 [tools]
-java = "temurin-25"
+java = "temurin-21"
 
 [tasks.build]
 run = "./gradlew build"
 
 [tasks.test]
 run = "./gradlew test"
+
+[tasks.run]
+run = "./gradlew :examples:telegram-boot-sample-app:bootRun"
