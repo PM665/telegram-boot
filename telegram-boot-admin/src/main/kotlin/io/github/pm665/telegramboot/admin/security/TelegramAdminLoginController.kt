@@ -78,7 +78,7 @@ class TelegramAdminLoginController(
         }
 
         loginUser(id, username, request, response)
-        return "redirect:/operator-admin"
+        return "redirect:/admin"
     }
 
     @PostMapping("/mini-app")
@@ -102,7 +102,7 @@ class TelegramAdminLoginController(
                 ?: throw ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid Telegram mini app payload")
 
         loginUser(miniAppPayload.userId, miniAppPayload.username, request, response)
-        return "redirect:/operator-admin"
+        return "redirect:/admin"
     }
 
     @GetMapping("/mini-app")

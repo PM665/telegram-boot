@@ -157,7 +157,7 @@ class AdminUISecurityConfigurationTest {
                         .param("auth_date", authDate.toString())
                         .param("hash", hash),
                 ).andExpect(status().isFound)
-                .andExpect(redirectedUrl("/operator-admin"))
+                .andExpect(redirectedUrl("/admin"))
                 .andReturn()
 
         mockMvc
@@ -186,7 +186,7 @@ class AdminUISecurityConfigurationTest {
                         .header("Origin", "https://miniapp.example")
                         .param("initData", "$initData&hash=$hash"),
                 ).andExpect(status().isFound)
-                .andExpect(redirectedUrl("/operator-admin"))
+                .andExpect(redirectedUrl("/admin"))
                 .andReturn()
 
         mockMvc
@@ -215,7 +215,7 @@ class AdminUISecurityConfigurationTest {
                         .header("Origin", "https://miniapp.example")
                         .content("""{"initData":"$initData&hash=$hash"}"""),
                 ).andExpect(status().isFound)
-                .andExpect(redirectedUrl("/operator-admin"))
+                .andExpect(redirectedUrl("/admin"))
                 .andReturn()
 
         mockMvc
@@ -244,7 +244,7 @@ class AdminUISecurityConfigurationTest {
                         .header("Origin", "https://miniapp.example")
                         .param("init_data", "$initData&hash=$hash"),
                 ).andExpect(status().isFound)
-                .andExpect(redirectedUrl("/operator-admin"))
+                .andExpect(redirectedUrl("/admin"))
                 .andReturn()
 
         mockMvc
