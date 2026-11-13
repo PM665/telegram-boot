@@ -70,7 +70,7 @@ class BotPaymentReminderJob(
 
         eventPublisher.publishEvent(
             SendAdminMessageEvent(
-                "❗️ Payment is overdue for bot `$botUsername`. Next payment date: ${formatDate(nextPaymentDate)}.",
+                "❗️ Payment is overdue for bot $botUsername. Next payment date: ${formatDate(nextPaymentDate)}.",
                 emptyList(),
                 null,
             ),

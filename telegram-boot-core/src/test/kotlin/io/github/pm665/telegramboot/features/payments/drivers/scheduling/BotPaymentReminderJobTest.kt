@@ -34,6 +34,6 @@ class BotPaymentReminderJobTest {
             },
         )
 
-        assertThat(events).containsExactly(SendAdminMessageEvent("❗️ Payment is overdue for bot `alpha_bot`. Next payment date: ${LocalDate.now().format(java.time.format.DateTimeFormatter.ofPattern("dd.MM.yyyy"))}.", emptyList(), null))
+        assertThat(events).containsExactly(SendAdminMessageEvent("❗️ Payment is overdue for bot alpha_bot. Next payment date: ${LocalDate.now().format(java.time.format.DateTimeFormatter.ofPattern("dd.MM.yyyy"))}.", emptyList(), null))
     }
 }

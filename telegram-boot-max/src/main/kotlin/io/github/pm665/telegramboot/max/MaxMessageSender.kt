@@ -48,7 +48,7 @@ internal class MaxMessageSender(
         val body =
             mutableMapOf<String, Any>(
                 "text" to text,
-                "format" to "markdown",
+                "format" to "html",
             )
         if (sendMessageMarkup.menuMarkup != null || sendMessageMarkup.requestLocation) {
             body["attachments"] =
@@ -152,6 +152,7 @@ internal class MaxMessageSender(
                 "MAX message text exceeds $MAX_TEXT_LENGTH characters"
             }
             body["text"] = preparedText
+            body["format"] = "html"
         }
         inlineKeyboard?.let { body["attachments"] = listOf(inlineKeyboard(it, false, botUsername, chatId, messageArgs)) }
         apiClient.answerCallback(token(botUsername), callback.id, body)

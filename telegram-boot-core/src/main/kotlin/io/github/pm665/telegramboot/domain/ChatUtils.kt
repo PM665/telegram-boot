@@ -13,7 +13,6 @@ import io.github.pm665.telegramboot.ports.UsersService.User
 import org.springframework.util.StringUtils
 
 object ChatUtils {
-    private val markdownSpecialChars = Regex("([\\\\_*`\\[])")
 
     fun extractChatId(update: BotUpdate?): Long {
         if (update == null) return -1
@@ -39,7 +38,7 @@ object ChatUtils {
         val text = message.text ?: return ""
         val entities = message.entities
         if (entities.isEmpty()) {
-            return text
+            return escapeHtml(text)
         }
 
         val sortedEntities =
@@ -60,7 +59,7 @@ object ChatUtils {
             if (offset < cursor) continue
 
             if (offset > cursor) {
-                result.append(escapeMarkdown(text.substring(cursor, offset)))
+                result.append(escapeHtml(text.substring(cursor, offset)))
             }
 
             val entityText = text.substring(offset, end)
@@ -69,7 +68,7 @@ object ChatUtils {
         }
 
         if (cursor < text.length) {
-            result.append(escapeMarkdown(text.substring(cursor)))
+            result.append(escapeHtml(text.substring(cursor)))
         }
 
         return result.toString()
@@ -172,37 +171,18 @@ object ChatUtils {
     private fun applyEntityFormatting(
         entity: BotMessageEntity,
         text: String,
-    ): String =
-        when (entity.type.lowercase()) {
-            "bold" -> {
-                "*${escapeMarkdown(text)}*"
-            }
-
-            "italic" -> {
-                "_${escapeMarkdown(text)}_"
-            }
-
-            "code" -> {
-                "`${text.replace("`", "\\`")}`"
-            }
-
-            "pre" -> {
-                "```$text```"
-            }
-
-            "text_link" -> {
-                val url = entity.url
-                if (!url.isNullOrBlank()) {
-                    "[${escapeMarkdown(text)}]($url)"
-                } else {
-                    text
-                }
-            }
-
-            else -> {
-                text
-            }
+    ): String {
+        val escaped = escapeHtml(text)
+        return when (entity.type.lowercase()) {
+            "bold" -> "<b>$escaped</b>"
+            "italic" -> "<i>$escaped</i>"
+            "code" -> "<code>$escaped</code>"
+            "pre" -> "<pre>$escaped</pre>"
+            "text_link" -> entity.url?.takeIf { it.isNotBlank() }?.let { "<a href=\"${escapeHtml(it)}\">$escaped</a>" } ?: escaped
+            else -> escaped
         }
+    }
 
-    private fun escapeMarkdown(text: String): String = text.replace(markdownSpecialChars, "\\\\$1")
+    private fun escapeHtml(text: String): String =
+        text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&quot;")
 }

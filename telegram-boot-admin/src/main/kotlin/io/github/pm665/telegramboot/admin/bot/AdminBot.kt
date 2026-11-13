@@ -208,7 +208,7 @@ class AdminBot(
                 telegramClient.execute(
                     SendRichMessage(
                         chat.chatId.toString(),
-                        richEvent.richHtml?.let { InputRichMessage(html = it) } ?: InputRichMessage(markdown = richEvent.message),
+                        richEvent.richHtml?.let { InputRichMessage(html = it) } ?: InputRichMessage(html = "<p>${richEvent.message.htmlEscape().replace("\n", "<br/>")}</p>"),
                     ),
                 )
             } else {
@@ -232,7 +232,7 @@ class AdminBot(
         val chatId = requireNotNull(event.editChatId).toString()
         val messageId = requireNotNull(event.editMessageId)
         if (event.richHtml != null) {
-            telegramClient.execute(EditRichMessage(chatId, messageId, InputRichMessage(html = event.richHtml)))
+            telegramClient.execute(EditRichMessage(chatId, messageId, InputRichMessage(html = requireNotNull(event.richHtml))))
             return
         }
         telegramClient.execute(

@@ -89,7 +89,7 @@ class TelegramMessageCreator(
             markup?.let { builder.replyMarkup(markup) }
 
             val msg = builder.build()
-            msg.enableMarkdown(true)
+            msg.enableHtml(true)
             return msg
         }
     }
@@ -128,7 +128,7 @@ class TelegramMessageCreator(
                 .photo(inputFile)
                 .disableNotification(silent)
                 .replyMarkup(markup)
-                .parseMode("Markdown")
+                .parseMode("HTML")
         sendMessageMarkup.replyToMessageId?.toIntOrNull()?.let(builder::replyToMessageId)
         return builder.build()
     }

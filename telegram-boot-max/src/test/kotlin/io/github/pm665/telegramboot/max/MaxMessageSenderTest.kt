@@ -43,7 +43,7 @@ class MaxMessageSenderTest {
         }
         server.expect(requestTo("https://platform-api2.max.ru/messages?user_id=701"))
             .andExpect(method(HttpMethod.POST))
-            .andExpect(content().json("""{"text":"order details","format":"markdown"}"""))
+            .andExpect(content().json("""{"text":"order details","format":"html"}"""))
             .andRespond(withSuccess("""{"message":{"body":{"mid":"order-message"}}}""", MediaType.APPLICATION_JSON))
         val sender =
             MaxMessageSender(
@@ -121,7 +121,7 @@ class MaxMessageSenderTest {
                     """
                     {
                       "text": "driver answer",
-                      "format": "markdown",
+                      "format": "html",
                       "attachments": [
                         {
                           "type": "inline_keyboard",
@@ -212,7 +212,7 @@ class MaxMessageSenderTest {
         whenever(textProcessor.prepareText(any(), any(), any())).thenAnswer { it.getArgument(0) }
         val sender = MaxMessageSender(botsService, MaxApiClient(builder.build(), com.fasterxml.jackson.databind.ObjectMapper()), mock(), textProcessor, MaxMessageRateLimiter())
         server.expect(requestTo("https://platform-api2.max.ru/messages?user_id=701"))
-            .andExpect(content().json("""{"text":"share","format":"markdown","attachments":[{"type":"inline_keyboard","payload":{"buttons":[[{"type":"request_geo_location","text":"common.shareLocation"}]]}}]}"""))
+            .andExpect(content().json("""{"text":"share","format":"html","attachments":[{"type":"inline_keyboard","payload":{"buttons":[[{"type":"request_geo_location","text":"common.shareLocation"}]]}}]}"""))
             .andRespond(withSuccess("""{"message":{"body":{"mid":"request-1"}}}""", MediaType.APPLICATION_JSON))
 
         val result = sender.sendMessage(SendMessageMarkup(text = "share", requestLocation = true), 701, "max-driver", emptyMap())

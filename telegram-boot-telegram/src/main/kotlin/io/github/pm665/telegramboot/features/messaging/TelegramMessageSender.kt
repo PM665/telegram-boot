@@ -242,7 +242,7 @@ class TelegramMessageSender(
                         .chatId(ChatUtils.extractChatId(update))
                         .messageId(messageId)
                         .text(prepareText(text, locale, messageArgs))
-                parseMode?.let(builder::parseMode)
+                builder.parseMode(parseMode ?: "HTML")
                 val textEdit = builder.build()
                 sendBotApiMethodInternal(textEdit, botUsername)
             }

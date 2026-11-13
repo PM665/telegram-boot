@@ -17,8 +17,8 @@ class SendRichMessage(
         if (chatId.isBlank()) {
             throw TelegramApiValidationException("Chat ID must not be blank", this)
         }
-        if (richMessage.markdown.isNullOrBlank() == richMessage.html.isNullOrBlank()) {
-            throw TelegramApiValidationException("Exactly one rich message format must be set", this)
+        if (richMessage.html.isBlank()) {
+            throw TelegramApiValidationException("Rich message HTML must not be blank", this)
         }
     }
 }
@@ -40,7 +40,5 @@ class EditRichMessage(
 
 data class InputRichMessage(
     @get:JsonInclude(JsonInclude.Include.NON_NULL)
-    @get:JsonProperty("markdown") val markdown: String? = null,
-    @get:JsonInclude(JsonInclude.Include.NON_NULL)
-    @get:JsonProperty("html") val html: String? = null,
+    @get:JsonProperty("html") val html: String,
 )
